@@ -36,6 +36,9 @@ If you would like to use the same schema document we used, you can download this
 git clone repo
 ```
 
+1. guide on how to make requests
+2. schemas
+   
 
 
 ### Task 2: Creating a React app to work with your Open API
