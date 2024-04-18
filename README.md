@@ -115,29 +115,41 @@ Once you have added your schema, you can now view your request on the right side
 
 ### Task 3: Creating a React app to work with your Open API
 
-to start using this API schema, we must create a react app that will act as our front end for the API.
-INSERT REACT APP TUTORIAL
+to start using this API schema, we must create a react app that will act as our front end for the API. The nice thing about the Swagger is that you can use most application types, and for our purposes, it can be generated in typescript or javascript.
 
-### Task 3: Edit Your OPEN API configuration
+```bash
+npx create-react-app my-app
+cd my-app
+```
 
-Walk through creation here of documentation and schemas and stuff
+### Task 4: Generate Open API components in react
 
-### Task 4: Generate code for your Azure backend HTTP requests.
+with our completed Open API specification, we can generate the typescript components for react automatically. On your swagger editor page, click "Generate Client" and then select "javascript" to download the generated files.
+
+![image](https://github.com/csci5117s24/the-penguins-Open-API/assets/96550351/c1e04a43-cc21-427f-8c41-3d88c035dd89)
+
+Now create a new folder in your source directory called "generated". you must then extract the files of the downloaded zip into this new folder. 
+
+https://blog.logrocket.com/generating-integrating-openapi-services-react/
+
+Next, Create your Azure Backend http requests. 
+
+Finally, run    
+npm install superagent 
+
+### Task 5: Generate code for your Azure backend HTTP requests.
 
 With Open API, you can generate templates for your API within your code database once you specify your endpoints and descriptions within your schema file.
 https://azure.microsoft.com/en-us/updates/generate-a-new-function-app-from-an-openapi-specification/
 
-### Task 5: Generate Open API components in react
 
-You can also generate components for API calls within react automatically.
-https://blog.logrocket.com/generating-integrating-openapi-services-react/
 
 
 
 ### Task 6: Test out your API!
 
 With your API set up and configured, you can now test these endpoints using Swagger editor. 
-Go back to your page that you created your schema. On the right hand side, you should see your specified endpoints and requests. Make sure to specify the correct server in the dropdown.
+Go back to your page that you created your schema. On the right hand side, you should see your specified endpoints and requests. Make sure to specify the correct server in the dropdown. For azure we use by default http://localhost:7071
 
 ![image](https://github.com/csci5117s24/the-penguins-Open-API/assets/96550351/04a63546-5cea-4e4c-a472-6208d0cd0fde)
 
