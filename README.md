@@ -49,7 +49,9 @@ insert pic
 #### The Requests
 This section of your open API file is for defining the requests that you want to use for your API.
 To set up a request, you must first create a path. This will act as your request URL.
+
 ![image](https://github.com/csci5117s24/the-penguins-Open-API/assets/96550351/0cef1f0b-3325-46d8-a924-041edb2dbf23)
+
 Under each path you specify, you can chose which request types to use. For this example, we create a POST request. 
 ```yaml
 paths:
