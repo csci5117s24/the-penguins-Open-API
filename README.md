@@ -15,7 +15,7 @@ OpenAPI streamlines web development for HTTP-based API designers by standardizin
 
 ![Sign up](https://swagger.io/tools/swagger-editor/)
 
-### Task 1: Setting up open api in Swagger editor
+### Task 1: Setting up Open API in Swagger editor
 
 _please note that all credit and attribution for setup process belongs to [SwaggerIO]()._
 
@@ -36,20 +36,85 @@ If you would like to use the same schema document we used, you can download this
 git clone repo
 ```
 
-1. guide on how to make requests
-2. schemas
    
 
 
-### Task 2: Creating a React app to work with your Open API
+### Task 2: 
+There are three main basic components of an OPENAPI document. The header, the requests, and the schemas for these requests.
+
+#### The description:
+The description part of the schema is used for documentation purposes. It is edited using Markdown language.
+insert pic
+
+#### The Requests
+This section of your open API file is for defining the requests that you want to use for your API.
+To set up a request, you must first create a path. This will act as your request URL.
+![image](https://github.com/csci5117s24/the-penguins-Open-API/assets/96550351/0cef1f0b-3325-46d8-a924-041edb2dbf23)
+Under each path you specify, you can chose which request types to use. For this example, we create a POST request. 
+```yaml
+paths:
+  /todo:
+    post:
+```
+Under the post request, we must define the Request body or Parameters if necessary. For post requests, we typically use the request body attribute so we can include multiple variables in creating an object, which will be based on our Schema, which we will create later.
+```yaml
+requestBody:
+        description: Create a new todo
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/todo'
+        required: true
+```
+This example request body will define the input request body with the "todo" schema that we have not yet defined. The last part of the Requests is the response section. Here we must define the expected responses from our request, such as 200: Normal, 404: Not Found, and other common examples relevant to your code.
+```yaml
+responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/todo'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+```
+
+#### The Schemas
+
+Once we have defined our request(s), we must create a schema that will define the attributes passed in our requests for different object types.
+In our example, we look to create a todo schema, which is created to define what a new to-do list item will contain: a description, an id, and a done property.
+
+```yaml
+components:
+  schemas:
+    todo:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        description:
+          type: string
+          example: "Do Something"
+        done:
+          type: boolean
+          example: false
+```
+
+A lot of the attributes within Open API such as "example" are very useful for designing detailed documentation, and you will be able to notice this on the right side of the page.
+
+Once you have added your schema, you can now view your request on the right side. 
+
+![image](https://github.com/csci5117s24/the-penguins-Open-API/assets/96550351/80ecb389-fc3a-4290-92d9-04c0fcbd4c94)
+
+
+### Task 3: Creating a React app to work with your Open API
 
 to start using this API schema, we must create a react app that will act as our front end for the API.
 INSERT REACT APP TUTORIAL
-
-### Task 3: Creating azure project to work with Open API
-
-We must also create a backend framework for this API.
-INERT AZURE MINI TUTORIAL
 
 ### Task 3: Edit Your OPEN API configuration
 
