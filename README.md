@@ -1,19 +1,18 @@
-# Tech Demo of OPEN API by Swagger
+# Tech Demo of OpenAPI Specification and Swagger Editor
 
-![OPEN_API logo]()
+![OPEN_API logo](openapi_swagger.png)
 
 ## Introduction
 
-Welcome to the Penguin's tech demo! Today we will be walking you through how to set up and use Open API, an API schema planner, generator, and testing toolkit that can be used to create better API backends for your websites.
+Welcome to the Penguin's tech demo! Today we will be introducing you to the OpenAPI Specification (OAS) and the Swagger Editor tool. In this tech demo, we will guide you through the process of setting up and using OAS and Swagger, configuring code generation, and utilizing a testing toolkit to create robust API backends for your websites. Get ready to dive into the world of API documentation and development!
 
 ## Why Use Open API
 
-OpenAPI streamlines web development for HTTP-based API designers by standardizing API descriptions, allowing frontend teams to integrate seamlessly with backend services through clear, auto-generated documentation. For instance, tools like Swagger UI enable developers to visualize and interact with the API directly, speeding up the testing and iteration of interactive website components. Code generation also facilitates quick adjustments to website functionality. 
+The OpenAPI Specification (OAS) offers developers and teams a streamlined framework for structuring and documenting HTTP-based APIs. By adhering to this specification, all stakeholders in product development gain a cohesive and standardized method for API documentation. Moreover, OAS supports the generation of client code, the sending of requests, and the creation of test cases. Tools like the Swagger Editor leverage OAS to provide syntax error feedback, visualize APIs, facilitate HTTP requests, and more.
 
+### Task 0: Get started with Swagger Editor
 
-### Task 0: Create an account with Swagger
-
-![Sign up](https://swagger.io/tools/swagger-editor/)
+To get started, visit the [Swagger Editor website](https://editor.swagger.io/)
 
 ### Task 1: Setting up Open API in Swagger editor
 
