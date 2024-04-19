@@ -121,13 +121,14 @@ npx create-react-app my-app
 cd my-app
 ```
 
-### Task 4: Generate Open API components in react
+### Task 4: Generate Open API models in react
 
-with our completed Open API specification, we can generate the typescript components for react automatically. On your swagger editor page, click "Generate Client" and then select "javascript" to download the generated files.
+with our completed Open API specification, we can generate the object models for react automatically. On your swagger editor page, click "Generate Client" and then select "javascript" to download the generated files.
 
 ![image](https://github.com/csci5117s24/the-penguins-Open-API/assets/96550351/c1e04a43-cc21-427f-8c41-3d88c035dd89)
 
-Now create a new folder in your source directory called "generated". you must then extract the files of the downloaded zip into this new folder. 
+Now create a new folder in your source directory called "generated". You must then extract the files of the downloaded zip into this new folder. For our Azure tech stacks, we can use the generated Models when passing through our fetch requests.
+
 
 https://blog.logrocket.com/generating-integrating-openapi-services-react/
 
