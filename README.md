@@ -117,45 +117,146 @@ Once you have added your schema, you can now view your request on the right side
 to start using this API schema, we must create a react app that will act as our front end for the API. The nice thing about the Swagger is that you can use most application types, and for our purposes, it can be generated in typescript or javascript.
 
 ```bash
-npx create-react-app my-app
-cd my-app
+npx create-react-app demo-app --template redux-typescript
+cd demo-app
 ```
 
-### Task 4: Generate Open API models in react
 
-with our completed Open API specification, we can generate the object models for react automatically. On your swagger editor page, click "Generate Client" and then select "javascript" to download the generated files.
+### Task 4: Create code for your Azure backend HTTP requests.
 
-![image](https://github.com/csci5117s24/the-penguins-Open-API/assets/96550351/c1e04a43-cc21-427f-8c41-3d88c035dd89)
+Unfortunately, there are no working code-generation resources for creating Azure Http requests, but many other backend API services support OpenAPI autogeneration.
+We have provided a sample backend in the demo Git repository.
 
-Now create a new folder in your source directory called "generated". You must then extract the files of the downloaded zip into this new folder. For our Azure tech stacks, we can use the generated Models when passing through our fetch requests.
+Make sure to change your local.settings.json file to contain your personal connection string
+```json
+{
+    "Values": {
+        "AZURE_MONGO_DB":"<INSERT CONNECTION STRING HERE>",
+        "FUNCTIONS_WORKER_RUNTIME": "node"
+    },
+    "IsEncrypted": false
+}
+```
+
+for our HTTP requests, we use Mongoose. if you would like to learn more about Mongoose as a utility for MongoDB, click here.
+We then configure our code to comply with the schema and OpenApi requests we previously defined
+
+```javascript
+const { app } = require('@azure/functions');
+const { ObjectId } = require('mongodb');
+const mongoClient = require("mongodb").MongoClient;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 
-https://blog.logrocket.com/generating-integrating-openapi-services-react/
+const userSchema = new Schema({
+    userID: { type: String, required: true, unique: true },
+    lists: [{ type: Schema.Types.ObjectId, ref: 'Todo' }],
+    // Add other user-related fields if needed (e.g., email, firstName, lastName)
+});
 
-Next, Create your Azure Backend http requests. 
-
-Finally, run    
-npm install superagent 
-
-### Task 5: Generate code for your Azure backend HTTP requests.
-
-With Open API, you can generate templates for your API within your code database once you specify your endpoints and descriptions within your schema file.
-https://azure.microsoft.com/en-us/updates/generate-a-new-function-app-from-an-openapi-specification/
-
-
+const todoSchema = new Schema({
+    text: { type: String, required: true },
+    completed: { type: Boolean, default: false },
+    id: { type: Number, required: true }
+});
 
 
 
-### Task 6: Test out your API!
+app.http('newTodo', {
+    methods: ['POST'],
+    authLevel: 'anonymous',
+    route: 'todos',
+    handler: async (request, context) => {
+        await mongoose.connect(process.env.AZURE_MONGO_DB);
+        const body = await request.json();
+        const auth_header = request.headers.get('X-MS-CLIENT-PRINCIPAL');
+        const Todo = mongoose.model('Todo', todoSchema);
+        const Users = mongoose.model('Users', userSchema);
+        const name = body.text ?? "Todo 1"
+        
+        const newTodo = new Todo();
+        newTodo.text = name; 
+        newTodo.id = body.id;
+        const savedTask = await newTodo.save(); //save the new Todo task
+
+        //add todo task to the user database.
+        Users.findOneAndUpdate({userID: auth_header}, 
+            { $set: { userId: auth_header }, $push: { lists: savedTask._id }}, 
+            { new: true, upsert: true })
+            .then(function(res) {
+                console.log("lists " +res.lists)
+            })
+            .catch(function(err) {
+                return {status: 404, jsonBody: err};
+            });
+
+        return{
+            status: 201, /* Defaults to 200 */
+            jsonBody: savedTask
+        };
+    },
+});
+
+```
+Make sure to run ```bash npm install ``` in both your main project folder and the api backend folder, and if you are creating a project from scratch, run ```bash npm install mongoose```
+Once this is done, go to your package.json file in your main project folder and make sure the following script is added with the other npm scripts
+```json
+"web": "npx @azure/static-web-apps-cli start http://localhost:3000 --run \"npm start\" --api-location ./api"
+```
+
+In your main project folder, you can now run
+```bash
+npm run web
+```
+to start your frontend and backend.
+
+### Task 5: Test out your API!
 
 With your API set up and configured, you can now test these endpoints using Swagger editor. 
-Go back to your page that you created your schema. On the right hand side, you should see your specified endpoints and requests. Make sure to specify the correct server in the dropdown. For azure we use by default http://localhost:7071
+Go back to your page that you created your schema. On the right hand side, you should see your specified endpoints and requests. Make sure to specify the correct server in the dropdown. 
 
 ![image](https://github.com/csci5117s24/the-penguins-Open-API/assets/96550351/04a63546-5cea-4e4c-a472-6208d0cd0fde)
 
-Next, Click on the API request you want to test out. Click on "Try it out." You can then fill in the request body and queries as necessary and click "Execute" when you're ready to test your request out. This will show you the response. 
+For azure we use by default http://localhost:7071
+
+![image](https://github.com/csci5117s24/the-penguins-Open-API/assets/96550351/818ec488-4f2f-4fee-8aab-ed7ee0f8531f)
+
+Once you're ready to execute, click the "Execute" button. your response will then show up below near the expected server responses.
+
+![image](https://github.com/csci5117s24/the-penguins-Open-API/assets/96550351/fbe338a8-e969-4959-a659-26e141a7c348)
+
+### Next Steps
+
+Now that you have your openAPI specification set up and communicating with your server, you can now use the OpenAPI ecosystem that has a lot of support and useful tools such as:
+1. Postman Integration
+2. Code generation for a variety of tech stacks
+3. 
+
+### Feature 1: integrate with Postman
+
+OpenAPI lets you integrate with Postman to send requests and collaborate with others on API development. First, you must export your openAPI YAML file from swagger editor. Select File > Save as YAML.
+In Postman's online or desktop client, create a workspace. Once in your workspace, you can drag and drop your YAML file into your workspace. Click import.
+
+![image](https://github.com/csci5117s24/the-penguins-Open-API/assets/96550351/0c19efe3-d202-453d-9129-f1dc7b5924b0)
+
+You can now use your API definition to send requests from Postman.
+
+![image](https://github.com/csci5117s24/the-penguins-Open-API/assets/96550351/b0951379-549e-46d1-af54-90b638a4380d)
+
+Postman also has many other OpenAPI features such as viewing and editing documentation, generating schemas, and much more.
+
+### Feature 2: Generate Open API models in react
+
+https://www.npmjs.com/package/openapi-fetch
+
+
+### Feature 3: Mock servers?
 
 ## Other Features and Abilities with OPENAPI
+
+There are so many other programs and tools that can be used with OPENAPI, a detailed list can be found here: https://openapi.tools/
+
 
 ## Review and Discussion
 
