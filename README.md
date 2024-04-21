@@ -248,7 +248,67 @@ Postman also has many other OpenAPI features such as viewing and editing documen
 
 ### Feature 2: Generate Open API models in react
 
-https://www.npmjs.com/package/openapi-fetch
+There are many libraries that can be used to generate fetch code for a variety of different tech stacks. For react, we found this [OpenApi Typescript Generator](https://openapi-generator.tech/docs/generators/typescript/) to work pretty well with some modifications.
+
+first go to your root project directory and install the generator with
+
+```bash
+npm i -D openapi-typescript typescript
+```
+
+Then with our openapi schema in our project's root directory, we ran
+
+```bash
+mkdir ./src/api
+npx openapi-generator-cli generate -i openapi.yaml -g typescript -o ./src/api
+```
+
+This generated all the request code from our API definition from open API, and it even generates auth middleware and other useful tools that you can easily implement. To learn more about the additional tools, you can visit LINK HERE.
+
+To use the generated code, we must first remove the unnecessary imports that aren't being used in ```path ./src/api/index.ts```. You can remove the following lines of code:
+```typescript
+export { Configuration } from "./configuration"
+export { PromiseMiddleware as Middleware } from './middleware';
+```
+
+Modify the import structure of ./src/models/ObjectSerializer.ts :
+```typescript
+import { Todo } from '../models/Todo';
+export * from '../models/Todo';
+```
+
+Once that is complete, you can now use your generated API definitions!
+An example of this in action for our post request:
+
+```typescript
+import './App.css';
+import * as TodoApi from './api/index'
+import { Todo } from './api/index';
+import * as fs from 'fs';
+
+const configuration = TodoApi.createConfiguration();
+const apiInstance = new TodoApi.TodoApi(configuration);
+
+let body:Todo = {
+  id: 10,
+  description: "Do Nothing",
+  done: false,
+};
+
+export default function App() {
+  function postTodo() {
+    apiInstance.addTodo(body).then((data:any) => {
+      console.log('API called successfully. Returned data: ' + data);
+    }).catch((error:any) => console.error(error));
+  }
+
+  return (
+    <div className="App">
+      <button onClick={postTodo}>Post</button>
+    </div>
+  );
+}
+```
 
 
 ### Feature 3: Mock servers?
