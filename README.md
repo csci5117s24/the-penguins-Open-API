@@ -30,7 +30,7 @@ From here, anything you edit will change the results on the right-hand side of t
 
 If you would like to use the same schema document and project folder we used, you can download this repository through the following git command:
 ```bash
-git clone [repo](https://github.com/csci5117s24/the-penguins-Open-API/)
+git clone https://github.com/csci5117s24/the-penguins-Open-API/
 ```
 
    
