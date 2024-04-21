@@ -1,0 +1,51 @@
+openapi: 3.0.3
+info:
+  title: Swagger Demo - OpenAPI 3.0
+  description: |-
+    This is the description of the API. this is fully customizable, and you can edit it like a standard markdown sheet, and its results will show on the righthand side of the page for documentation purposes
+  version: 1.0.11
+servers:
+  - url: http://localhost:7071
+paths:
+  /api/todo:
+    post:
+      tags:
+        - todo
+      summary: Add a new todo to the store
+      description: Add a new todo to the store
+      operationId: addTodo
+      requestBody:
+        description: Create a new todo
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/todo'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/todo'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+
+
+components:
+  schemas:
+    todo:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        description:
+          type: string
+          example: "Do Something"
+        done:
+          type: boolean
+          example: false

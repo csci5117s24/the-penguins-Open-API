@@ -1,0 +1,7 @@
+{
+    "Values": {
+        "AZURE_MONGO_DB":"<INSERT DATABASE URL HERE>",
+        "FUNCTIONS_WORKER_RUNTIME": "node"
+    },
+    "IsEncrypted": false
+}
