@@ -23,14 +23,12 @@ We are going to use the online version of swagger editor for this process. For m
 First, go to the website to use the [online swagger editor](https://editor.swagger.io/?_gl=1*1kmbfui*_gcl_au*MjA0NDYzNDQ1Ni4xNzEzMzE4MTAx&_ga=2.72475856.2107357273.1713318092-276513053.1713201288)
 This page will show an editable document containing API configuration information. You can import a file to edit or work on the predefined template shown. 
 
-![image](https://github.com/csci5117s24/the-penguins-Open-API/assets/96550351/6213f6d1-2cea-49cc-a32d-65eadd204953)
+![image](https://github.com/csci5117s24/the-penguins-Open-API/assets/96550351/65355f53-fe46-44eb-910c-3af0673de6ef)
+
 
 From here, anything you edit will change the results on the right-hand side of the page, which shows the specifications of your new API.
 
-![image](https://github.com/csci5117s24/the-penguins-Open-API/assets/96550351/ae473ff5-fead-4354-b9bc-79094080a2b7)
-
-
-If you would like to use the same schema document we used, you can download this repository through the following git command:
+If you would like to use the same schema document and project folder we used, you can download this repository through the following git command:
 ```bash
 git clone repo
 ```
@@ -148,16 +146,9 @@ const mongoClient = require("mongodb").MongoClient;
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-
-const userSchema = new Schema({
-    userID: { type: String, required: true, unique: true },
-    lists: [{ type: Schema.Types.ObjectId, ref: 'Todo' }],
-    // Add other user-related fields if needed (e.g., email, firstName, lastName)
-});
-
 const todoSchema = new Schema({
-    text: { type: String, required: true },
-    completed: { type: Boolean, default: false },
+    description: { type: String, required: true },
+    done: { type: Boolean, default: false },
     id: { type: Number, required: true }
 });
 
@@ -166,38 +157,26 @@ const todoSchema = new Schema({
 app.http('newTodo', {
     methods: ['POST'],
     authLevel: 'anonymous',
-    route: 'todos',
+    route: 'todo',
     handler: async (request, context) => {
         await mongoose.connect(process.env.AZURE_MONGO_DB);
         const body = await request.json();
-        const auth_header = request.headers.get('X-MS-CLIENT-PRINCIPAL');
+        //const auth_header = request.headers.get('X-MS-CLIENT-PRINCIPAL');
         const Todo = mongoose.model('Todo', todoSchema);
-        const Users = mongoose.model('Users', userSchema);
-        const name = body.text ?? "Todo 1"
-        
+        const name = body.description ?? "Todo 1"
+        const id = body.id ?? 1
+        const done = body.done;
         const newTodo = new Todo();
-        newTodo.text = name; 
-        newTodo.id = body.id;
+        newTodo.description = name; 
+        newTodo.id = id;
+        newTodo.done = done;
         const savedTask = await newTodo.save(); //save the new Todo task
-
-        //add todo task to the user database.
-        Users.findOneAndUpdate({userID: auth_header}, 
-            { $set: { userId: auth_header }, $push: { lists: savedTask._id }}, 
-            { new: true, upsert: true })
-            .then(function(res) {
-                console.log("lists " +res.lists)
-            })
-            .catch(function(err) {
-                return {status: 404, jsonBody: err};
-            });
-
         return{
             status: 201, /* Defaults to 200 */
             jsonBody: savedTask
         };
     },
 });
-
 ```
 Make sure to run ```bash npm install ``` in both your main project folder and the api backend folder, and if you are creating a project from scratch, run ```bash npm install mongoose```
 Once this is done, go to your package.json file in your main project folder and make sure the following script is added with the other npm scripts
