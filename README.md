@@ -311,8 +311,6 @@ export default function App() {
 ```
 
 
-### Feature 3: Mock servers?
-
 ## Other Features and Abilities with OPENAPI
 
 There are so many other programs and tools that can be used with OPENAPI, a detailed list can be found here: https://openapi.tools/
