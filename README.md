@@ -188,12 +188,12 @@ In your main project folder, you can now run
 ```bash
 npm run web
 ```
-to start your frontend and backend.
+to start your frontend and backend servers.
 
 ### Task 5: Test out your API!
 
 With your API set up and configured, you can now test these endpoints using Swagger editor. 
-Go back to your page that you created your schema. On the right hand side, you should see your specified endpoints and requests. Make sure to specify the correct server in the dropdown. 
+Go back to the page that you created your schema. On the right-hand side, you should see your specified endpoints and requests. Make sure to specify the correct server in the dropdown. 
 
 ![image](https://github.com/csci5117s24/the-penguins-Open-API/assets/96550351/04a63546-5cea-4e4c-a472-6208d0cd0fde)
 
@@ -210,7 +210,7 @@ Once you're ready to execute, click the "Execute" button. your response will the
 Now that you have your openAPI specification set up and communicating with your server, you can now use the OpenAPI ecosystem that has a lot of support and useful tools such as:
 1. Postman Integration
 2. Code generation for a variety of tech stacks
-3. 
+3. Documentation helpers
 
 ### Feature 1: integrate with Postman
 
@@ -290,8 +290,8 @@ export default function App() {
 ```
 ### Feature 3: Documentation Generation
 
-One of the key advantages to OpenAPI is its rich support for detailed documentation that could be especially useful in designing software with a waterfall approach, if one needs to comply with regulations, or if there are other parties involved. To generate openAPI
-documentation, in your swagger editor, click "Generate Client" on the top bar, and then select "HTML" from the dropdown. 
+One of the key advantages of OpenAPI is its rich support for detailed documentation that could be especially useful in designing software with a waterfall approach if one needs to comply with regulations, or if there are other parties involved. To generate open API
+documentation, in your swagger editor, click "Generate Client" on the top bar and then select "HTML" from the dropdown. 
 
 ![image](https://github.com/csci5117s24/the-penguins-Open-API/assets/96550351/c410b1eb-7b3b-43b8-bc04-7c645443eccd)
 
@@ -300,12 +300,10 @@ The resulting html serves as detailed documentation for your designed API.
 
 ![image](https://github.com/csci5117s24/the-penguins-Open-API/assets/96550351/aa1470b8-bc1e-4ae5-8918-fb9689706d95)
 
-
 ## Other Features and Abilities with OPENAPI
 
 There are so many other programs and tools that can be used with OPENAPI, a detailed list can be found here: https://openapi.tools/
 
-
 ## Review and Discussion
 
-To conclude, There are a lot of things to be absorbed that are described here in this end paragraph. If you've made it this far then you probably can submit your feedback! hope you enjoyed
+To conclude, Open API is not just a helpful one-off visualizer for website APIs, but an entire ecosystem for full-stack API development. Now that you are equipped with the knowledge of how to develop and test an API within this ecosystem, you're on your way to become a more efficient and equipped web API developer. If you've made it this far then you probably can submit your feedback! hope you enjoyed!
