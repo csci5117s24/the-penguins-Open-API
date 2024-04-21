@@ -288,6 +288,17 @@ export default function App() {
   );
 }
 ```
+### Feature 3: Documentation Generation
+
+One of the key advantages to OpenAPI is its rich support for detailed documentation that could be especially useful in designing software with a waterfall approach, if one needs to comply with regulations, or if there are other parties involved. To generate openAPI
+documentation, in your swagger editor, click "Generate Client" on the top bar, and then select "HTML" from the dropdown. 
+
+![image](https://github.com/csci5117s24/the-penguins-Open-API/assets/96550351/c410b1eb-7b3b-43b8-bc04-7c645443eccd)
+
+
+The resulting html serves as detailed documentation for your designed API.
+
+![image](https://github.com/csci5117s24/the-penguins-Open-API/assets/96550351/aa1470b8-bc1e-4ae5-8918-fb9689706d95)
 
 
 ## Other Features and Abilities with OPENAPI
