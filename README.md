@@ -301,7 +301,7 @@ The resulting html serves as detailed documentation for your designed API.
 
 ## Other Features and Abilities with OpenAPI
 
-There are so many other programs and tools that can be used with OPENAPI, a detailed list can be found here: https://openapi.tools/
+There are so many other programs and tools that can be used with OpenAPI, a detailed list can be found here: https://openapi.tools/
 
 ## Review and Discussion
 
