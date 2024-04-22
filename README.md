@@ -112,18 +112,7 @@ Once you've defined your servers, paths, and schemas, you can finally start usin
 
 Note: To start sending requests, continue until step 5
 
-
-### Task 3: Creating a React app to work with your Open API
-
-To start using this API schema, we must create a react app that will act as our front end for the API. The nice thing about the Swagger is that you can use most application types, and for our purposes, it can be generated in typescript or javascript.
-
-```bash
-npx create-react-app demo-app --template redux-typescript
-cd demo-app
-```
-
-
-### Task 4: Create code for your Azure backend HTTP requests.
+### Task 3: Create code for your Azure backend HTTP requests.
 
 Unfortunately, there are no working code-generation resources for creating Azure Http requests, but many other backend API services support OpenAPI autogeneration.
 We have provided a sample backend in the demo Git repository.
@@ -190,7 +179,7 @@ npm run web
 ```
 to start your frontend and backend servers.
 
-### Task 5: Test out your API!
+### Task 4: Test out your API!
 
 With your API set up and configured, you can now test these endpoints using the Swagger Editor. 
 Go back to the page that you created your schema. On the right-hand side, you should see your specified endpoints and requests. Make sure to specify the correct server in the dropdown. 
