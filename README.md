@@ -115,9 +115,9 @@ Note: To start sending requests, continue until step 5
 ### Task 3: Create code for your Azure backend HTTP requests.
 
 Unfortunately, there are no working code-generation resources for creating Azure Http requests, but many other backend API services support OpenAPI autogeneration.
-We have provided a sample backend in the demo Git repository.
+What follows is the sample backend code we created as shown in the `/api` directory.
 
-Make sure to change your local.settings.json file to contain your personal connection string if using MongoDB
+If you would like to test the APIs using your own data, make sure to change the `local.settings.json` file with your own MongoDB connection string.
 ```json
 {
     "Values": {
@@ -128,8 +128,10 @@ Make sure to change your local.settings.json file to contain your personal conne
 }
 ```
 
-We will use mongoose to provide database interactivity for our `Todo` items . If you would like to learn more about Mongoose as a utility for MongoDB, please visit their [website](https://mongoosejs.com/docs/index.html).
-We then configure our code to comply with the schema and OpenApi requests we previously defined.
+We will use the Mongoose library to provide database interactivity for our `Todo` items. If you would like to learn more about Mongoose as a utility for MongoDB, please visit their [website](https://mongoosejs.com/docs/index.html).
+
+In `/api/index.js` we define a todo schema as well as a route to post todo items. 
+Notice how the todo schema is identical to the one defined in our OpenApi!
 
 ```javascript
 const { app } = require('@azure/functions');
@@ -153,7 +155,6 @@ app.http('newTodo', {
     handler: async (request, context) => {
         await mongoose.connect(process.env.AZURE_MONGO_DB);
         const body = await request.json();
-        //const auth_header = request.headers.get('X-MS-CLIENT-PRINCIPAL');
         const Todo = mongoose.model('Todo', todoSchema);
         const name = body.description ?? "Todo 1"
         const id = body.id ?? 1
@@ -162,22 +163,22 @@ app.http('newTodo', {
         newTodo.description = name; 
         newTodo.id = id;
         newTodo.done = done;
-        const savedTask = await newTodo.save(); //save the new Todo task
+        const savedTask = await newTodo.save();
         return{
-            status: 201, /* Defaults to 200 */
+            status: 201,
             jsonBody: savedTask
         };
     },
 });
 ```
 
-Make sure to run ```npm i``` in both your main project folder and the api backend folder to install the correct dependencies.
+Make sure to run ```npm i``` in both your main project folder and the `/api` folder to install the correct dependencies.
 
 In your main project folder, you can now run
 ```bash
 npm run web
 ```
-to start your frontend and backend servers.
+to start the frontend and backend servers.
 
 ### Task 4: Test out your API!
 
