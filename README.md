@@ -1,73 +1,77 @@
 # Tech Demo of OpenAPI Specification and Swagger Editor
 
-![OPEN_API logo](openapi_swagger.png)
+![OPEN_API logo](demo-pics/openapi_swagger.png)
 
 ## Introduction
 
 Welcome to the Penguin's tech demo! Today we will be introducing you to the OpenAPI Specification (OAS) and the Swagger Editor tool. In this tech demo, we will guide you through the process of setting up and using OAS and Swagger, configuring code generation, and utilizing a testing toolkit to create robust API backends for your websites. Get ready to dive into the world of API documentation and development!
 
-## Why Use Open API
+## Why Use OpenAPI
 
 The OpenAPI Specification (OAS) offers developers and teams a streamlined framework for structuring and documenting HTTP-based APIs. By adhering to this specification, all stakeholders in product development gain a cohesive and standardized method for API documentation. Moreover, OAS supports the generation of client code, the sending of requests, and the creation of test cases. Tools like the Swagger Editor leverage OAS to provide syntax error feedback, visualize APIs, facilitate HTTP requests, and more.
 
-### Task 0: Get started with Swagger Editor
+## OpenAPI Demonstration
+The following is a demonstration of OpenAPI to understand the main concepts and provide a practical example of how this could be used in a real project.
 
-To get started, visit the [Swagger Editor website](https://editor.swagger.io/)
+### Task 1: Introduction to Swagger Editor
 
-### Task 1: Setting up Open API in Swagger editor
+Let's start our journey with the [Swagger Editor](https://editor.swagger.io), a powerful tool by [SmartBear Software](https://smartbear.com/company/about-us/) for designing OpenAPI schemas.
 
-_please note that all credit and attribution for setup process belongs to [SwaggerIO]()._
+Key Features:
+- **Syntax Highlighting**: Enhances readability and reduces the chance of errors.
+- **IDE-like Editing**: Provides a familiar environment for developers, boosting productivity.
+- **Clean User Interface**: Allows for efficient navigation and operation.
 
-We are going to use the online version of swagger editor for this process. For more detailed and dedicated projects, they recommend using the full desktop client.
+The Swagger Editor supports both `yaml` and `json` file types. For larger projects, consider using the full desktop client.
 
-First, go to the website to use the [online swagger editor](https://editor.swagger.io/?_gl=1*1kmbfui*_gcl_au*MjA0NDYzNDQ1Ni4xNzEzMzE4MTAx&_ga=2.72475856.2107357273.1713318092-276513053.1713201288)
-This page will show an editable document containing API configuration information. You can import a file to edit or work on the predefined template shown. 
+### Task 2: Setting Up Your Swagger Editor
+
+If you're new to Swagger, you'll initially see a default OpenAPI example. For more insights on their demo, please refer to the provided page.
+
+To utilize our example, follow these steps:
+
+1. Clone our repository:
+    ```bash
+    git clone https://github.com/csci5117s24/the-penguins-Open-API/
+    ```
+2. Import `schema.yaml` into the Swagger Editor. You can do this by either copying and pasting the file content or using the import function in the editor.
+
+Upon successful import, your Swagger Editor should resemble the following:
 
 ![image](https://github.com/csci5117s24/the-penguins-Open-API/assets/96550351/65355f53-fe46-44eb-910c-3af0673de6ef)
 
+The right-hand side of the editor displays an editable version of the OpenAPI schema. The left-hand side contains a visual representation of the schema, that is, the API endpoints and their associated request objects.   
 
-From here, anything you edit will change the results on the right-hand side of the page, which shows the specifications of your new API.
+### Task 3: Understanding Key Components of Our OpenAPI Document
 
-If you would like to use the same schema document and project folder we used, you can download this repository through the following git command:
-```bash
-git clone https://github.com/csci5117s24/the-penguins-Open-API/
-```
+Our OpenAPI document is composed of three primary elements: Servers, Paths, and Schemas. Let's delve into each one:
 
-   
+#### Servers
+This section defines the base URL for your API. In our case, we're using `localhost:7071`. This means that our API is running locally on our machine, specifically on port 7071. All the paths defined in the `paths` section of the OpenAPI document will be appended to this base URL when making requests. This setup can be expanded in the future to include additional servers, such as those for staging or production environments.
+    ![](demo-pics/servers.png)
 
+#### Paths
+Paths define the endpoints of your API. Each path corresponds to a specific request URL. Under each path, you specify the HTTP methods (GET, POST, PUT, DELETE, etc.) that the endpoint supports. For each method, you define the request parameters, body, and responses.
 
-### Task 2: 
-There are three main basic components of an OPENAPI document. The header, the requests, and the schemas for these requests.
+Here's the `/todo` endpoint from our example:
 
-#### The description:
-The description part of the schema is used for documentation purposes. It is edited using Markdown language.
-insert pic
-
-#### The Requests
-This section of your open API file is for defining the requests that you want to use for your API.
-To set up a request, you must first create a path. This will act as your request URL.
-
-![image](https://github.com/csci5117s24/the-penguins-Open-API/assets/96550351/433210bc-320b-4fc3-a79d-a075c0d4f9c1)
-
-Under each path you specify, you can chose which request types to use. For this example, we create a POST request. 
 ```yaml
 paths:
-  /todo:
+  /api/todo:
     post:
-```
-Under the post request, we must define the Request body or Parameters if necessary. For post requests, we typically use the request body attribute so we can include multiple variables in creating an object, which will be based on our Schema, which we will create later.
-```yaml
-requestBody:
+      tags:
+        - todo
+      summary: Add a new todo to the store
+      description: Add a new todo to the store
+      operationId: addTodo
+      requestBody:
         description: Create a new todo
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/todo'
         required: true
-```
-This example request body will define the input request body with the "todo" schema that we have not yet defined. The last part of the Requests is the response section. Here we must define the expected responses from our request, such as 200: Normal, 404: Not Found, and other common examples relevant to your code.
-```yaml
-responses:
+      responses:
         '200':
           description: Successful operation
           content:
@@ -78,12 +82,13 @@ responses:
           description: Invalid input
         '422':
           description: Validation exception
+
 ```
 
-#### The Schemas
+#### Schemas
+Schemas define the structure of the data that your API sends and receives. They are used in request bodies and responses to validate the data and ensure it matches the expected format.
 
-Once we have defined our request(s), we must create a schema that will define the attributes passed in our requests for different object types.
-In our example, we look to create a todo schema, which is created to define what a new to-do list item will contain: a description, an id, and a done property.
+Here's the todo schema from our example:
 
 ```yaml
 components:
@@ -103,16 +108,14 @@ components:
           example: false
 ```
 
-A lot of the attributes within Open API such as "example" are very useful for designing detailed documentation, and you will be able to notice this on the right side of the page.
+Once you've defined your servers, paths, and schemas, you can finally start using the Swagger UI tools to visualize your API and interact with it directly from your browser.
 
-Once you have added your schema, you can now view your request on the right side. 
-
-![image](https://github.com/csci5117s24/the-penguins-Open-API/assets/96550351/80ecb389-fc3a-4290-92d9-04c0fcbd4c94)
+Note: To start sending requests, continue until step 5
 
 
 ### Task 3: Creating a React app to work with your Open API
 
-to start using this API schema, we must create a react app that will act as our front end for the API. The nice thing about the Swagger is that you can use most application types, and for our purposes, it can be generated in typescript or javascript.
+To start using this API schema, we must create a react app that will act as our front end for the API. The nice thing about the Swagger is that you can use most application types, and for our purposes, it can be generated in typescript or javascript.
 
 ```bash
 npx create-react-app demo-app --template redux-typescript
@@ -125,19 +128,19 @@ cd demo-app
 Unfortunately, there are no working code-generation resources for creating Azure Http requests, but many other backend API services support OpenAPI autogeneration.
 We have provided a sample backend in the demo Git repository.
 
-Make sure to change your local.settings.json file to contain your personal connection string
+Make sure to change your local.settings.json file to contain your personal connection string if using MongoDB
 ```json
 {
     "Values": {
-        "AZURE_MONGO_DB":"<INSERT CONNECTION STRING HERE>",
+        "AZURE_MONGO_DB":"<INSERT MONGO_DB CONNECTION STRING HERE>",
         "FUNCTIONS_WORKER_RUNTIME": "node"
     },
     "IsEncrypted": false
 }
 ```
 
-for our HTTP requests, we use Mongoose. if you would like to learn more about Mongoose as a utility for MongoDB, click here.
-We then configure our code to comply with the schema and OpenApi requests we previously defined
+We will use mongoose to provide database interactivity for our `Todo` items . If you would like to learn more about Mongoose as a utility for MongoDB, please visit their [website](https://mongoosejs.com/docs/index.html).
+We then configure our code to comply with the schema and OpenApi requests we previously defined.
 
 ```javascript
 const { app } = require('@azure/functions');
@@ -178,11 +181,7 @@ app.http('newTodo', {
     },
 });
 ```
-Make sure to run ```bash npm install ``` in both your main project folder and the api backend folder, and if you are creating a project from scratch, run ```bash npm install mongoose```
-Once this is done, go to your package.json file in your main project folder and make sure the following script is added with the other npm scripts
-```json
-"web": "npx @azure/static-web-apps-cli start http://localhost:3000 --run \"npm start\" --api-location ./api"
-```
+Make sure to run ```npm i``` in both your main project folder and the api backend folder to install the correct dependencies.
 
 In your main project folder, you can now run
 ```bash
@@ -192,7 +191,7 @@ to start your frontend and backend servers.
 
 ### Task 5: Test out your API!
 
-With your API set up and configured, you can now test these endpoints using Swagger editor. 
+With your API set up and configured, you can now test these endpoints using the Swagger Editor. 
 Go back to the page that you created your schema. On the right-hand side, you should see your specified endpoints and requests. Make sure to specify the correct server in the dropdown. 
 
 ![image](https://github.com/csci5117s24/the-penguins-Open-API/assets/96550351/04a63546-5cea-4e4c-a472-6208d0cd0fde)
@@ -214,7 +213,7 @@ Now that you have your openAPI specification set up and communicating with your 
 
 ### Feature 1: integrate with Postman
 
-OpenAPI lets you integrate with Postman to send requests and collaborate with others on API development. First, you must export your openAPI YAML file from swagger editor. Select File > Save as YAML.
+OpenAPI lets you integrate with Postman to send requests and collaborate with others on API development. First, you must export your OpenAPI YAML file from swagger editor. Select File > Save as YAML.
 In Postman's online or desktop client, create a workspace. Once in your workspace, you can drag and drop your YAML file into your workspace. Click import.
 
 ![image](https://github.com/csci5117s24/the-penguins-Open-API/assets/96550351/0c19efe3-d202-453d-9129-f1dc7b5924b0)
@@ -242,7 +241,7 @@ mkdir ./src/api
 npx openapi-generator-cli generate -i openapi.yaml -g typescript -o ./src/api
 ```
 
-This generated all the request code from our API definition from open API, and it even generates auth middleware and other useful tools that you can easily implement. To learn more about the additional tools, you can visit LINK HERE.
+This generated all the request code from our OpenAPI schema, and it even generates auth middleware and other useful tools that you can easily implement.
 
 To use the generated code, we must first remove the unnecessary imports that aren't being used in ```path ./src/api/index.ts```. You can remove the following lines of code:
 ```typescript
@@ -290,8 +289,7 @@ export default function App() {
 ```
 ### Feature 3: Documentation Generation
 
-One of the key advantages of OpenAPI is its rich support for detailed documentation that could be especially useful in designing software with a waterfall approach if one needs to comply with regulations, or if there are other parties involved. To generate open API
-documentation, in your swagger editor, click "Generate Client" on the top bar and then select "HTML" from the dropdown. 
+One of the key advantages of OpenAPI is its rich support for detailed documentation that could be especially useful in designing software with a waterfall approach if one needs to comply with regulations, or if there are other parties involved. To generate open API documentation, in your swagger editor, click "Generate Client" on the top bar and then select "HTML" from the dropdown. 
 
 ![image](https://github.com/csci5117s24/the-penguins-Open-API/assets/96550351/c410b1eb-7b3b-43b8-bc04-7c645443eccd)
 
@@ -300,10 +298,10 @@ The resulting html serves as detailed documentation for your designed API.
 
 ![image](https://github.com/csci5117s24/the-penguins-Open-API/assets/96550351/aa1470b8-bc1e-4ae5-8918-fb9689706d95)
 
-## Other Features and Abilities with OPENAPI
+## Other Features and Abilities with OpenAPI
 
 There are so many other programs and tools that can be used with OPENAPI, a detailed list can be found here: https://openapi.tools/
 
 ## Review and Discussion
 
-To conclude, Open API is not just a helpful one-off visualizer for website APIs, but an entire ecosystem for full-stack API development. Now that you are equipped with the knowledge of how to develop and test an API within this ecosystem, you're on your way to become a more efficient and equipped web API developer. If you've made it this far then you probably can submit your feedback! hope you enjoyed!
+To conclude, OpenAPI is not just a helpful one-off visualizer for website APIs, but an entire ecosystem for full-stack API development. Now that you are equipped with the knowledge of how to develop and test an API within this ecosystem, you're on your way to become a more efficient and equipped web API developer. If you've made it this far then you probably can submit your feedback! Hope you enjoyed!
