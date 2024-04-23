@@ -22,7 +22,7 @@ Key Features:
 - **IDE-like Editing**: Provides a familiar environment for developers, boosting productivity.
 - **Clean User Interface**: Allows for efficient navigation and operation.
 
-The Swagger Editor supports both `yaml` and `json` file types. For larger projects, consider using the full desktop client.
+The Swagger Editor accommodates both `yaml` and `json` file types, providing a user-friendly and comprehensible language for all individuals involved in website development.
 
 ### Task 2: Setting Up Your Swagger Editor
 
@@ -112,7 +112,7 @@ Once you've defined your servers, paths, and schemas, you can finally start usin
 
 Note: To start sending requests, continue until step 5
 
-### Task 3: Create code for your Azure backend HTTP requests.
+### Task 4: Create code for your Azure backend HTTP requests.
 
 Unfortunately, there are no working code-generation resources for creating Azure Http requests, but many other backend API services support OpenAPI autogeneration.
 What follows is the sample backend code we created as shown in the `/api` directory.
@@ -180,7 +180,7 @@ npm run web
 ```
 to start the frontend and backend servers.
 
-### Task 4: Test out your API!
+### Task 5: Test out your API!
 
 With your API set up and configured, you can now test these endpoints using the Swagger Editor. 
 Go back to the page that you created your schema. On the right-hand side, you should see your specified endpoints and requests. Make sure to specify the correct server in the dropdown. 
